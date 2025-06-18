@@ -1,4 +1,3 @@
-// ▶ 아래 URL을 정확히 여러분의 웹앱 exec URL로 바꿔주세요 ←
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbySI0FBLkyjJ5womXR2udT5B4LFsI08DMIru0Pl-OhdjBPXU1V8RRauHL7ajrejKvZXNA/exec';
 
 function lookup() {
