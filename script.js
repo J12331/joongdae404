@@ -1,4 +1,4 @@
-// ▶ 방금 복사한 웹앱 URL(…/exec)로 교체하세요
+// ▶ 여기에 배포한 웹앱 URL을 정확히 넣으세요
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbzqhtxeV7UDxllwW7EAhczVmEi0UdAEj7jbity2YX5QnCwEuxPROEFIfKtX0wjarEc-aA/exec';
 
 function lookup() {
@@ -14,13 +14,13 @@ function lookup() {
   resultDiv.innerHTML = '<p>조회 중입니다...</p>';
 
   const callbackName = 'handleGradesCallback';
-  // 이전 JSONP 스크립트 태그 제거
+  // 이전 JSONP <script> 태그 제거
   const prev = document.getElementById('jsonpScript');
   if (prev) document.body.removeChild(prev);
 
-  // 글로벌 콜백 함수 정의 (여기에서 console.log)
+  // 글로벌 콜백 함수 정의 (console.log로 데이터 확인)
   window[callbackName] = function(data) {
-    console.log('JSONP 응답 데이터:', data);  // ← 이 로그가 찍히는지 확인!
+    console.log('JSONP 응답 데이터:', data);  // ← 여기에 배열이 찍히는지 확인!
     delete window[callbackName];
     const tag = document.getElementById('jsonpScript');
     if (tag) document.body.removeChild(tag);
