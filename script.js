@@ -1,3 +1,4 @@
+// ← 이 부분을 배포 후 복사한 “웹앱 URL”로 꼭 교체하세요 (exec 까지 포함)
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbySI0FBLkyjJ5womXR2udT5B4LFsI08DMIru0Pl-OhdjBPXU1V8RRauHL7ajrejKvZXNA/exec';
 
 function lookup() {
@@ -10,16 +11,21 @@ function lookup() {
     resultDiv.innerHTML = '<p>모든 필드를 입력해주세요.</p>';
     return;
   }
+
   resultDiv.innerHTML = '<p>조회 중입니다...</p>';
 
   const callbackName = 'handleGradesCallback';
+
+  // 만약 이전 JSONP <script> 태그가 남아있다면 제거
   const old = document.getElementById('jsonpScript');
   if (old) document.body.removeChild(old);
 
+  // 글로벌 JSONP 콜백 함수 정의
   window[callbackName] = function(data) {
+    // 콜백 실행 후 정리
     delete window[callbackName];
-    const s = document.getElementById('jsonpScript');
-    if (s) document.body.removeChild(s);
+    const tag = document.getElementById('jsonpScript');
+    if (tag) document.body.removeChild(tag);
 
     if (!data.length) {
       resultDiv.innerHTML = '<p>해당 학생 정보를 찾을 수 없습니다.</p>';
@@ -38,6 +44,7 @@ function lookup() {
     }
   };
 
+  // JSONP 요청용 <script> 태그 생성
   const script = document.createElement('script');
   script.id  = 'jsonpScript';
   script.src = `${GAS_URL}`
