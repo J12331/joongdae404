@@ -1,5 +1,5 @@
-
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbySI0FBLkyjJ5womXR2udT5B4LFsI08DMIru0Pl-OhdjBPXU1V8RRauHL7ajrejKvZXNA/exec';
+// ▶ 방금 복사한 웹앱 URL(…/exec)로 교체하세요
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzqhtxeV7UDxllwW7EAhczVmEi0UdAEj7jbity2YX5QnCwEuxPROEFIfKtX0wjarEc-aA/exec';
 
 function lookup() {
   const name  = encodeURIComponent(document.getElementById('name').value.trim());
@@ -14,10 +14,13 @@ function lookup() {
   resultDiv.innerHTML = '<p>조회 중입니다...</p>';
 
   const callbackName = 'handleGradesCallback';
+  // 이전 JSONP 스크립트 태그 제거
   const prev = document.getElementById('jsonpScript');
   if (prev) document.body.removeChild(prev);
 
+  // 글로벌 콜백 함수 정의 (여기에서 console.log)
   window[callbackName] = function(data) {
+    console.log('JSONP 응답 데이터:', data);  // ← 이 로그가 찍히는지 확인!
     delete window[callbackName];
     const tag = document.getElementById('jsonpScript');
     if (tag) document.body.removeChild(tag);
@@ -39,6 +42,7 @@ function lookup() {
     }
   };
 
+  // JSONP 호출용 <script> 태그 생성
   const script = document.createElement('script');
   script.id  = 'jsonpScript';
   script.src = `${GAS_URL}`
@@ -48,4 +52,3 @@ function lookup() {
              + `&phone=${phone}`;
   document.body.appendChild(script);
 }
-
