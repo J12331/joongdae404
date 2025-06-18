@@ -1,3 +1,4 @@
+
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbySI0FBLkyjJ5womXR2udT5B4LFsI08DMIru0Pl-OhdjBPXU1V8RRauHL7ajrejKvZXNA/exec';
 
 function lookup() {
@@ -13,11 +14,9 @@ function lookup() {
   resultDiv.innerHTML = '<p>조회 중입니다...</p>';
 
   const callbackName = 'handleGradesCallback';
-  // 이전 JSONP 스크립트 태그가 있으면 제거
   const prev = document.getElementById('jsonpScript');
   if (prev) document.body.removeChild(prev);
 
-  // 글로벌 콜백 함수 정의
   window[callbackName] = function(data) {
     delete window[callbackName];
     const tag = document.getElementById('jsonpScript');
@@ -40,7 +39,6 @@ function lookup() {
     }
   };
 
-  // JSONP용 <script> 태그 생성 + 절대 URL 사용
   const script = document.createElement('script');
   script.id  = 'jsonpScript';
   script.src = `${GAS_URL}`
@@ -50,3 +48,4 @@ function lookup() {
              + `&phone=${phone}`;
   document.body.appendChild(script);
 }
+
