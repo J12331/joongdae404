@@ -1,4 +1,4 @@
-// ← 이 부분을 배포 후 복사한 “웹앱 URL”로 꼭 교체하세요 (exec 까지 포함)
+// ▶ 아래 URL을 정확히 여러분의 웹앱 exec URL로 바꿔주세요 ←
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbySI0FBLkyjJ5womXR2udT5B4LFsI08DMIru0Pl-OhdjBPXU1V8RRauHL7ajrejKvZXNA/exec';
 
 function lookup() {
@@ -11,18 +11,15 @@ function lookup() {
     resultDiv.innerHTML = '<p>모든 필드를 입력해주세요.</p>';
     return;
   }
-
   resultDiv.innerHTML = '<p>조회 중입니다...</p>';
 
   const callbackName = 'handleGradesCallback';
+  // 이전 JSONP 스크립트 태그가 있으면 제거
+  const prev = document.getElementById('jsonpScript');
+  if (prev) document.body.removeChild(prev);
 
-  // 만약 이전 JSONP <script> 태그가 남아있다면 제거
-  const old = document.getElementById('jsonpScript');
-  if (old) document.body.removeChild(old);
-
-  // 글로벌 JSONP 콜백 함수 정의
+  // 글로벌 콜백 함수 정의
   window[callbackName] = function(data) {
-    // 콜백 실행 후 정리
     delete window[callbackName];
     const tag = document.getElementById('jsonpScript');
     if (tag) document.body.removeChild(tag);
@@ -44,7 +41,7 @@ function lookup() {
     }
   };
 
-  // JSONP 요청용 <script> 태그 생성
+  // JSONP용 <script> 태그 생성 + 절대 URL 사용
   const script = document.createElement('script');
   script.id  = 'jsonpScript';
   script.src = `${GAS_URL}`
