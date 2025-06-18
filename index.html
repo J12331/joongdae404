@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>학생 성적 조회</title>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    input, button { margin: 5px; padding: 8px; }
+    #result { margin-top: 20px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>학생 성적 조회</h1>
+  <input type="text" id="name" placeholder="학생 이름"><br>
+  <input type="text" id="birth" placeholder="생년월일 6자리"><br>
+  <input type="text" id="phone" placeholder="학부모 전화번호"><br>
+  <button onclick="lookup()">조회하기</button>
+
+  <div id="result"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
