@@ -6,9 +6,9 @@ function lookup() {
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = "조회 중입니다...";
 
-  // GET 방식으로 쿼리스트링 전송 (preflight 없음)
-  const url = "https://script.google.com/macros/s/AKfycbySI0FBLkyjJ5womXR2udT5B4LFsI08DMIru0Pl-OhdjBPXU1V8RRauHL7ajrejKvZXNA/exec" +
-              `?name=${name}&birth=${birth}&phone=${phone}`;
+  // GET 요청: preflight 없이 바로 호출
+  const url = "https://script.google.com/macros/s/AKfycbySI0FBLkyjJ5womXR2udT5B4LFsI08DMIru0Pl-OhdjBPXU1V8RRauHL7ajrejKvZXNA/exec"
+            + `?name=${name}&birth=${birth}&phone=${phone}`;
 
   fetch(url)
     .then(res => res.json())
@@ -16,13 +16,14 @@ function lookup() {
       if (!data.length) {
         resultDiv.innerHTML = "<p>해당 학생 정보를 찾을 수 없습니다.</p>";
       } else {
-        let html = 
-          "<table><tr><th>이름</th><th>과목</th><th>단원명</th><th>점수</th></tr>";
+        let html = "<table><tr><th>이름</th><th>과목</th><th>단원명</th><th>점수</th></tr>";
         data.forEach(item => {
-          html += `<tr><td>${item.이름}</td>`
-               + `<td>${item.과목}</td>`
-               + `<td>${item.단원명}</td>`
-               + `<td>${item.점수}</td></tr>`;
+          html += `<tr>
+                     <td>${item.이름}</td>
+                     <td>${item.과목}</td>
+                     <td>${item.단원명}</td>
+                     <td>${item.점수}</td>
+                   </tr>`;
         });
         html += "</table>";
         resultDiv.innerHTML = html;
@@ -32,3 +33,4 @@ function lookup() {
       resultDiv.innerHTML = `<p>에러 발생: ${err}</p>`;
     });
 }
+
