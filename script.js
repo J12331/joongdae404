@@ -10,14 +10,21 @@ function lookup() {
     resultDiv.innerHTML = '<p>모든 필드를 입력해주세요.</p>';
     return;
   }
+
   resultDiv.innerHTML = '<p>조회 중입니다...</p>';
 
-  // JSONP 호출
-  const callback = 'handleGrades';
-  window[callback] = function(data) {
-    // 호출 후 정리
-    delete window[callback];
-    document.body.removeChild(script);
+  const callbackName = 'handleGradesCallback';
+
+  // 이전 JSONP 스크립트가 남아있다면 제거
+  const old = document.getElementById('jsonpScript');
+  if (old) document.body.removeChild(old);
+
+  // 전역 콜백 함수 정의
+  window[callbackName] = function(data) {
+    // 콜백 수행 후 정리
+    delete window[callbackName];
+    const s = document.getElementById('jsonpScript');
+    if (s) document.body.removeChild(s);
 
     if (!data.length) {
       resultDiv.innerHTML = '<p>해당 학생 정보를 찾을 수 없습니다.</p>';
@@ -36,14 +43,16 @@ function lookup() {
     }
   };
 
-  // 동적 <script> 로 JSONP 요청
+  // JSONP 호출용 스크립트 태그 생성
   const script = document.createElement('script');
+  script.id  = 'jsonpScript';
   script.src = `${GAS_URL}`
-             + `?name=${name}`
+             + `?callback=${callbackName}`
+             + `&name=${name}`
              + `&birth=${birth}`
-             + `&phone=${phone}`
-             + `&callback=${callback}`;
+             + `&phone=${phone}`;
   document.body.appendChild(script);
 }
+
 
 
